@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: gulimall-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.101.158.57:8848 #Nacos地址
+      config:
+        server-addr: 47.101.158.57:8848 #Nacos地址
+        file-extension: yaml #这里我们获取的yaml格式的配置
+        namespace: 85210a80-97ba-49c1-8a6a-7f22943772be
+        #        group: 11
+        ext-config:
+         - data-id: aaa.yaml
+           refresh: true
+           group: 11
+         - data-id: bbb.yaml
+           refresh: true
+           group: 11
