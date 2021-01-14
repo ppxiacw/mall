@@ -6,11 +6,19 @@ knife4j:
     enable: true
     serviceUrl: http://47.101.158.57:8848/nacos/
     routes:
-      - name: 订单服务
+      - name: 商品服务
         serviceName: gulimall-product
         location: /v2/api-docs?group=default
         servicePath: /gulimall-product
-#      - name: 用户体系
-#        serviceName: service-user
-#        location: /aub/v2/api-docs?group=default
-#        servicePath: /
+      - name: 用户体系
+        serviceName: gulimall-member
+        location: /v2/api-docs?group=default
+        servicePath: /gulimall-member
+      - name: 优惠券
+        serviceName: gulimall-coupon
+        location: /v2/api-docs?group=default
+        servicePath: /gulimall-coupon
+      - name: 订单服务
+        serviceName: gulimall-order
+        location: /v2/api-docs?group=default
+        servicePath: /gulimall-order
