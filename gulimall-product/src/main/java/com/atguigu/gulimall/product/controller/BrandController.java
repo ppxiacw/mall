@@ -39,7 +39,7 @@ public class BrandController {
     /**
      * 列表
      */
-    @PostMapping("/list")
+    @GetMapping("/list")
     @ApiOperation(value = "查看品牌列表")
     //@RequiresPermissions("product:brand:list")
     public R list(@RequestParam Map<String, Object> params){

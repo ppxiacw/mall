@@ -22,3 +22,7 @@ knife4j:
         serviceName: gulimall-order
         location: /v2/api-docs?group=default
         servicePath: /gulimall-order
+      - name: 仓储服务
+        serviceName: gulimall-ware
+        location: /v2/api-docs?group=default
+        servicePath: /gulimall-ware
