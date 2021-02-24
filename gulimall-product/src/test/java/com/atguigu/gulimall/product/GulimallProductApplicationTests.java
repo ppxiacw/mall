@@ -1,6 +1,5 @@
 package com.atguigu.gulimall.product;
 
-import com.atguigu.gulimall.product.entity.BrandEntity;
 import com.atguigu.gulimall.product.entity.CategoryEntity;
 import com.atguigu.gulimall.product.service.BrandService;
 import com.atguigu.gulimall.product.service.CategoryService;
@@ -12,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -48,25 +44,58 @@ public class GulimallProductApplicationTests {
 
     @Test
     public void contextLoads() {
-
-//        BrandEntity brandEntity = new BrandEntity();
-//        brandEntity.setBrandId(1L);
-//        brandEntity.setDescript("华为");
-
-//
-//        brandEntity.setName("华为");
-//        brandService.save(brandEntity);
-//        System.out.println("保存成功....");
-
-//        brandService.updateById(brandEntity);
-
-
-        List<BrandEntity> list = brandService.list(new QueryWrapper<BrandEntity>().eq("brand_id", 1L));
-        list.forEach((item) -> {
-            System.out.println(item);
-        });
-
+        List<CategoryEntity> cat_level = categoryService.getBaseMapper().selectList(new QueryWrapper<CategoryEntity>().eq("cat_level", 1));
+        List<CategoryEntity> all = categoryService.getBaseMapper().selectList(null);
+        cat_level.stream().map(categoryEntity -> {
+            categoryEntity.setChildren(getChildrens(categoryEntity,all));
+            return categoryEntity;
+        }).collect(Collectors.toList());
+        for (int i = 0; i < cat_level.size(); i++) {
+            System.out.println(cat_level.get(i));
+        }
     }
+
+    //我的-------递归查找所有菜单的子菜单
+    private List<CategoryEntity> MyGetChildrens(CategoryEntity root,List<CategoryEntity> all){
+        List<CategoryEntity> collect = all.stream().filter(categoryEntity -> {
+            return categoryEntity.getParentCid() == root.getCatId();
+        }).map(item -> {
+            item.setChildren(getChildrens(item, all));
+            return item;
+        }).collect(Collectors.toList());
+        return collect;
+    }
+
+    //递归查找所有菜单的子菜单
+    private List<CategoryEntity> getChildrens(CategoryEntity root,List<CategoryEntity> all){
+
+        List<CategoryEntity> children = all.stream().filter(categoryEntity -> {
+            return categoryEntity.getParentCid() == root.getCatId();
+        }).map(categoryEntity -> {
+            //1、找到子菜单
+            categoryEntity.setChildren(getChildrens(categoryEntity,all));
+            return categoryEntity;
+        }).sorted((menu1,menu2)->{
+            //2、菜单的排序
+            return (menu1.getSort()==null?0:menu1.getSort()) - (menu2.getSort()==null?0:menu2.getSort());
+        }).collect(Collectors.toList());
+
+        return children;
+    }
+
+    @Test
+    public  void  map(){
+        ArrayList<String> strings = new ArrayList<>();
+//        strings.add("1");
+//        strings.add("2");
+//        strings.add("3");
+        strings.stream().filter(item->{
+            System.out.println("我");
+            System.out.println(item.toString());
+            return true;
+        }).collect(Collectors.toList());
+    }
+
     @Test
     public void test(){
         ArrayList<Integer>  arr= new ArrayList<Integer>();

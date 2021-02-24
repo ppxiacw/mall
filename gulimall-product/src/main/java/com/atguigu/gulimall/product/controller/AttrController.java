@@ -35,6 +35,12 @@ public class AttrController {
     @Autowired
     ProductAttrValueService productAttrValueService;
 
+    @GetMapping("test")
+    public  void test(String cateId,@RequestParam  Map<String,Object> map){
+        System.out.println(map);
+        System.out.println(cateId);
+    }
+
     ///product/attr/info/{attrId}
 
     // /product/attr/base/listforspu/{spuId}

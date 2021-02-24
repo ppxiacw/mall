@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.101.158.57:8848
+  application:
+    name: gulimall-elasticsearch
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 12000
